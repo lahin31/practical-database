@@ -121,7 +121,7 @@ Two practical constraints are,
 
 If you do not explicitly define a delete behavior (CASCADE, SET NULL), the default behavior is RESTRICT, meaning the database will prevent deletion if there are dependent records in the child table.
 
-## I know indexing can improve query performance. What is the best practice to add an index in a column?
+## I know that indexing can improve query performance. What are the best practices for adding an index to a column?
 
 Answer is Cardinality. Cardinality generally refers to the uniqueness of data values in a particular column. For example, consider an orders table with the following attributes: id, customer_id, and status.
 
@@ -132,3 +132,15 @@ Answer is Cardinality. Cardinality generally refers to the uniqueness of data va
 When you index a high cardinality column, table scans are reduced, and finding a unique indexed value (like customer_id) becomes faster.
 
 On the other hand, indexing a low cardinality column results in more table scans because the column is not unique, leading to less efficiency.
+
+## He said to use id as auto-increment but she said to use id as UUID/ULID. I am confused.
+
+Depends.
+
+- auto-increment predictable.
+- UUID/ULID not predictable.
+
+- auto-increment size 4 bytes (32-bit integer) or 8 bytes (64-bit integer).
+- UUID/ULID size 16 bytes.
+
+Those are two major considerations. You can choose one or go for a hybrid approach.
