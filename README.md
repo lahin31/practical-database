@@ -68,3 +68,43 @@ There are 3 kinds of Data Integrity,
 - Referential Integrity: If two table colums are connected with each other we can call this Referential Integrity. With Foreign Key we can easily ensure the Referential Integrity. This can be an Integrity Issue if one entity is deleted which is connected to another table entity.
 
 - Domain Integrity: This ensures that all the attributes contains correct data. For example, username table can't contain mobile number, this can also be an Integrity Issue.
+
+## People say that SELECT \* is slow in terms of performance. Why?
+
+When you fetch data from disk, it loads a page or multiple pages (if not indexed) from disk into the shared buffer pool (heap).
+
+- Using SELECT \* retrieves all columns, whether they are indexed or not. Since every column is requested, the database must perform additional I/O operations to fetch each column from the shared buffer pool. Excessive I/O operations are costly and can impact performance.
+
+- Another drawback of using SELECT \* is that the database must deserialize all columns, even those that may not be needed for your specific use case. This increases computational overhead and can slow down query performance.
+
+- Modern database engines allow you to include non-key columns directly in an index, enabling the index to 'cover' more query requirements without accessing the heap.
+
+Consider the following query:
+
+```sql
+SELECT title, description, genre FROM books WHERE genre = 'Science Fiction';
+```
+
+Here, genre is indexed (as a secondary index in InnoDB). However, it still needs to access the heap (the main table storage) to retrieve title and description. This can take time.
+
+What if you add a Covering Index like this,
+
+```sql
+CREATE INDEX idx_covering ON books (genre, title, description);
+```
+
+Now, when we run the same query:
+
+```sql
+SELECT title, description, genre FROM books WHERE genre = 'Science Fiction';
+```
+
+MySQL or any other database can retrieve all required columns directly from the index without accessing the heap.
+
+However, if the query has no covering index like idx_covering:
+
+```sql
+SELECT * FROM books WHERE genre = 'Science Fiction';
+```
+
+The database must access the heap to fetch all columns, even those not in the index. This increases I/O operations and slows down performance.
