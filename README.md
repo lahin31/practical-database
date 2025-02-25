@@ -1,4 +1,4 @@
-# Practical Database
+# Database Uncovering the QA
 
 This repository explains various database concepts through real-world scenarios, providing insights that help in designing more efficient and scalable database architectures.
 
@@ -108,3 +108,27 @@ SELECT * FROM books WHERE genre = 'Science Fiction';
 ```
 
 The database must access the heap to fetch all columns, even those not in the index. This increases I/O operations and slows down performance.
+
+## When I delete a row, I get a "Foreign Key Constraint Failed" error message. Why?
+
+Foreign Key Constraint ensures the integrity and consistency of data across related tables. These constraints specify the actions to be taken when a referenced record in the parent table is updated or deleted.
+
+Two practical constraints are,
+
+- CASCADE: When the referenced record in the parent table is updated or deleted, the corresponding foreign key values in the child table are automatically updated or deleted to match the new values in the parent table.
+
+- SET NULL: When the referenced record in the parent table is updated or deleted, the foreign key values in the child table are set to NULL.
+
+If you do not explicitly define a delete behavior (CASCADE, SET NULL), the default behavior is RESTRICT, meaning the database will prevent deletion if there are dependent records in the child table.
+
+## I know indexing can improve query performance. What is the best practice to add an index in a column?
+
+Answer is Cardinality. Cardinality generally refers to the uniqueness of data values in a particular column. For example, consider an orders table with the following attributes: id, customer_id, and status.
+
+- id and customer_id have high cardinality because both are unique. As the table grows in size, the uniqueness of these columns increases, which means higher cardinality.
+
+- status has low cardinality because it can only have a few possible values like "pending," "processing," or "delivered." Many rows may contain the same status.
+
+When you index a high cardinality column, table scans are reduced, and finding a unique indexed value (like customer_id) becomes faster.
+
+On the other hand, indexing a low cardinality column results in more table scans because the column is not unique, leading to less efficiency.
