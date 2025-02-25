@@ -1,6 +1,6 @@
 # Practical Database
 
-This repository explains different database scenarios, helping us design better database architectures.
+This repository explains various database concepts through real-world scenarios, providing insights that help in designing more efficient and scalable database architectures.
 
 ## I heard about Schemaless. MongoDB is Schemaless. Does that mean there is no schema?
 
@@ -32,3 +32,29 @@ We can say like this,
 A relational database follows a schema-on-write approach, meaning the schema is explicitly defined before data is inserted. Developers must update the schema before storing or interpreting new data.
 
 Where a document database follows a schema-on-read approach, where the schema is implicit and interpreted only when the data is read or queried.
+
+## I am using MySQL, and I have seen some people use DATETIME while others use TIMESTAMP. What is the difference?
+
+DateTime:
+
+- Stores date and time (from '1000-01-01 00:00:00' to '9999-12-31 23:59:59').
+
+- Use DateTime when you care about a specific time, like 'appointment','schedule_at', 'exam_start', etc.
+
+- If you use DateTime in this, you will get some native methods like DATE_ADD.
+
+- The database stores the datetime data so that humans can read and understand it.
+
+TimeStamp:
+
+- Stores date and time (from '1970-01-01 00:00:01'UTC to '2038-01-19 03:14:07' UTC).
+
+- TIMESTAMP is used to track changes in records and update them every time they are changed, or, in other words, 'created_at', 'updated_at', or 'deleted_at'.
+
+- TIMESTAMP internally converts a current time zone to UTC for storage, and during retrieval, it converts back to the current time zone (DateStamp can't do that).
+
+- The database stores the time stamp data in integer representation.
+
+## What will happen to timestamps after 2038, since the limit is 2038-01-19 03:14:07?
+
+MySQL 8+ addressed the issue with UNIX_TIMESTAMP(). For that, MySQL should run on a 64-bit system.
