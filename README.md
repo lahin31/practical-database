@@ -57,4 +57,14 @@ TimeStamp:
 
 ## What will happen to timestamps after 2038, since the limit is 2038-01-19 03:14:07?
 
-MySQL 8+ addressed the issue with UNIX_TIMESTAMP(). For that, MySQL should run on a 64-bit system.
+It will be crushed. MySQL 8+ addressed the issue with UNIX_TIMESTAMP(). For that, MySQL should run on a 64-bit system.
+
+## Data Integrity ensures us all the data in the database can be uniquely traced and connected to other table attribute. Explain.
+
+There are 3 kinds of Data Integrity,
+
+- Entity Integrity: This means each entity can be uniquely identified, with the help of Primary Key we can easily traced. This can be an Integrity Issue if we can't traced an entity.
+
+- Referential Integrity: If two table colums are connected with each other we can call this Referential Integrity. With Foreign Key we can easily ensure the Referential Integrity. This can be an Integrity Issue if one entity is deleted which is connected to another table entity.
+
+- Domain Integrity: This ensures that all the attributes contains correct data. For example, username table can't contain mobile number, this can also be an Integrity Issue.
