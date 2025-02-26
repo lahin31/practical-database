@@ -121,7 +121,7 @@ Two practical constraints are,
 
 If you do not explicitly define a delete behavior (CASCADE, SET NULL), the default behavior is RESTRICT, meaning the database will prevent deletion if there are dependent records in the child table.
 
-## I know that indexing can improve query performance. What are the best practices for adding an index to a column?
+## I know that indexing can improve query performance. What is the best practice for adding index to a column? Should I make all columns index?
 
 Answer is Cardinality. Cardinality generally refers to the uniqueness of data values in a particular column. For example, consider an orders table with the following attributes: id, customer_id, and status.
 
@@ -137,10 +137,19 @@ On the other hand, indexing a low cardinality column results in more table scans
 
 Depends.
 
-- auto-increment predictable.
-- UUID/ULID not predictable.
-
-- auto-increment size 4 bytes (32-bit integer) or 8 bytes (64-bit integer).
-- UUID/ULID size 16 bytes.
+- auto-increment predictable. UUID/ULID not predictable.
+- auto-increment size 4 bytes (32-bit integer) or 8 bytes (64-bit integer). UUID/ULID size 16 bytes.
 
 Those are two major considerations. You can choose one or go for a hybrid approach.
+
+## Why do people set the username or email as a UNIQUE constraint?
+
+If you are designing a database schema (SQL), make sure to use the UNIQUE constraint to ensure that all values in a column are distinct.
+
+Apply the UNIQUE constraint to columns that need to be unique, such as email and username, to maintain data integrity and accuracy by preventing duplicate values.
+
+When you define a UNIQUE constraint on a column, the database automatically creates a unique index for it.
+
+Although unique indexes and regular indexes share similarities, a unique index enforces uniqueness across all rows in a column, whereas a regular index does not.
+
+You can apply the UNIQUE constraint to a single column or a combination of columns (multi-column). However, in MySQL, a multi-column UNIQUE constraint does not enforce bidirectional uniqueness—it only ensures that the combination of values in the specified columns is unique.
