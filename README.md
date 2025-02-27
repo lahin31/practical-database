@@ -1,4 +1,4 @@
-# Database Uncovering the QA
+# Database Uncovering the Q&A
 
 This repository explains various database concepts through real-world scenarios, providing insights that help in designing more efficient and scalable database architectures.
 
