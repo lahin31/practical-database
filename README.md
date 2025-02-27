@@ -164,6 +164,10 @@ Use Soft Delete when, Data Recovery is necessary.
 
 Use Hard Delete when, Data Recovery is not necessary.
 
+## In terms of performance ULID works better than UUID. Explain.
+
+Because ULID contains a 48-bit timestamp and an 80-bit random value, since the first part is a timestamp, it allows ULID to be lexicographically sorted. So for sorted nature, it works better with the B+ tree data structure(indexing) for finding, insertion, and delation operations.
+
 ## How can we efficiently process 500,000 rows from a different MySQL table every midnight while ensuring system stability, minimizing performance impact, and preventing Out of Memory (OOM) errors?
 
 Now we can grab the 500,000 of rows which wasn't an issue. Now if we process all 500,000 amounts of rows together this will create some issues,
