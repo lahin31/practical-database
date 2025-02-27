@@ -153,3 +153,23 @@ When you define a UNIQUE constraint on a column, the database automatically crea
 Although unique indexes and regular indexes share similarities, a unique index enforces uniqueness across all rows in a column, whereas a regular index does not.
 
 You can apply the UNIQUE constraint to a single column or a combination of columns (multi-column). However, in MySQL, a multi-column UNIQUE constraint does not enforce bidirectional uniqueness—it only ensures that the combination of values in the specified columns is unique.
+
+## How can we efficiently process 500,000 rows from a different MySQL table every midnight while ensuring system stability, minimizing performance impact, and preventing Out of Memory (OOM) errors?
+
+Now we can grab the 500,000 of rows which wasn't an issue. Now if we process all 500,000 amounts of rows together this will create some issues,
+
+- loading large datasets together into memory can lead to Out of Memory errors, especially in environments with limited RAM.
+
+- what if processing is interrupted (example, server crash, network issue, application failure), you might have partially processed data.
+
+- if the underlying data in your table changes while you're processing, you might get inconsistent results. Strong consistency was required.
+
+How can we overcome from these issues,
+
+- Use Limit and Offset clauses in your SELECT statements to retrieve data in batches. This way we can avoid overwhelming the server by retrieving data in smaller chunks. Using offset may cause performance issues, use Primary Key (auto-increment).
+
+- Message Queue: Put the batching info to the queue so that worker can pick it and process it. After finishing a process we can group those results and store that to the database table in a single row.
+
+- Transaction: Wrap our batch processing within Transaction. So that if an interruption occurs, the transaction can be rolled back, preventing partial updates.
+
+- Use transaction isolation levels like REPEATABLE READ or SERIALIZABLE to ensure that your queries see a consistent snapshot of the data throughout the entire processing period.
