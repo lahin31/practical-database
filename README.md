@@ -154,6 +154,16 @@ Although unique indexes and regular indexes share similarities, a unique index e
 
 You can apply the UNIQUE constraint to a single column or a combination of columns (multi-column). However, in MySQL, a multi-column UNIQUE constraint does not enforce bidirectional uniqueness—it only ensures that the combination of values in the specified columns is unique.
 
+## When to use Soft Delete and Hard Delete?
+
+Soft Delete and Hard Delete are critical aspects of the system, as they have an impact (negative or positive) in the future.
+
+Before choosing an option, it is important to understand the use case and verify it with the business owner.
+
+Use Soft Delete when, Data Recovery is necessary.
+
+Use Hard Delete when, Data Recovery is not necessary.
+
 ## How can we efficiently process 500,000 rows from a different MySQL table every midnight while ensuring system stability, minimizing performance impact, and preventing Out of Memory (OOM) errors?
 
 Now we can grab the 500,000 of rows which wasn't an issue. Now if we process all 500,000 amounts of rows together this will create some issues,
